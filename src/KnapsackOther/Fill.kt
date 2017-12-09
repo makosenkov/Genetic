@@ -47,20 +47,9 @@ fun fillKnapsackGreedy(load: Int, items: List<Item>): Fill {
     return fillKnapsackGreedySorted(load, sorted)
 }
 
-
-
 fun main(args: Array<String>) {
     val items = listOf(Item(8, 8), Item(5, 6), Item(6, 8), Item(10, 15), Item(4, 2))
-    val time1 = System.currentTimeMillis()
-    println(fillKnapsackDynamic(30, items))
-    val time1end = System.currentTimeMillis()
-    val time2 = System.currentTimeMillis()
-    println(fillKnapsackGreedy(30, items))
-    val time2end = System.currentTimeMillis()
-    val time3 = System.currentTimeMillis()
-    println(solve(30, items))
-    val time3end = System.currentTimeMillis()
-    println("Dynamic : " + (time1end - time1) + "мс")
-    println("Greedy : " + (time2end - time2) + "мс")
-    println("Genetic : " + (time3end - time3) + "мс")
+    println("Dynamic: " + fillKnapsackDynamic(30, items))
+    println("Greedy: " + fillKnapsackGreedy(30, items))
+    println("Genetic: " + solve(30, items))
 }

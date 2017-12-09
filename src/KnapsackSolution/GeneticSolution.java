@@ -3,9 +3,7 @@ package KnapsackSolution;
 import KnapsackOther.Fill;
 import KnapsackOther.Item;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class GeneticSolution {
     Random random = new Random();
@@ -61,14 +59,12 @@ public class GeneticSolution {
         }
 
         Fill convertToFill() {
-            Fill newItems = null;
-            for (int i = 0; i < items.length; i++) {
+            Set<Item> takenItems = new HashSet<>();
+            for (int i = 0; i < items.length; i++)
                 if (DNA[i])
-                    if (newItems == null) newItems = new Fill(items[i]);
-                    else
-                        newItems.plus(new Fill(items[i]));
-            }
-            return newItems;
+                    takenItems.add(items[i]);
+
+            return new Fill(fitness, takenItems);
         }
 
         Individual cross(Individual otherDNA) {
