@@ -6,9 +6,9 @@ import KnapsackSolution.GeneticSolution.solve
 data class Fill(val cost: Int, val items: Set<Item>) {
     operator fun plus(fill: Fill) = Fill(cost + fill.cost, items + fill.items)
 
-    constructor(cost: Int, vararg items: Item): this(cost, items.toSet())
+    constructor(cost: Int, vararg items: Item) : this(cost, items.toSet())
 
-    constructor(item: Item): this(item.cost, item)
+    constructor(item: Item) : this(item.cost, item)
 }
 
 data class LoadCount(val load: Int, val count: Int)
@@ -41,15 +41,53 @@ private fun fillKnapsackGreedySorted(load: Int, items: List<Item>): Fill {
 }
 
 fun fillKnapsackGreedy(load: Int, items: List<Item>): Fill {
-    val sorted = items.sortedWith(Comparator<Item> {
-        o1, o2 -> (o1.cost.toDouble() / o1.weight).compareTo(o2.cost.toDouble() / o2.weight)
+    val sorted = items.sortedWith(Comparator<Item> { o1, o2 ->
+        (o1.cost.toDouble() / o1.weight).compareTo(o2.cost.toDouble() / o2.weight)
     })
     return fillKnapsackGreedySorted(load, sorted)
 }
 
 fun main(args: Array<String>) {
-    val items = listOf(Item(8, 8), Item(5, 6), Item(6, 8), Item(10, 15), Item(4, 2))
-    println("Dynamic: " + fillKnapsackDynamic(30, items))
-    println("Greedy: " + fillKnapsackGreedy(30, items))
-    println("Genetic: " + solve(30, items))
+    val random = Random()
+    //Test 1
+    val items = mutableListOf<Item>()
+    for (i in 0..10) {
+        val item = Item(random.nextInt(10), random.nextInt(10))
+        items.add(item)
+    }
+    var dynamicFill: Fill
+    var greedyFill: Fill
+    var geneticFill: Fill
+    var pass = 0
+    for (i in 0..100) {
+        dynamicFill = fillKnapsackDynamic(30, items)
+        greedyFill = fillKnapsackGreedy(30, items)
+        geneticFill = solve(30, items)
+        if (geneticFill.items.size >= dynamicFill.items.size || geneticFill.items.size >= greedyFill.items.size)
+            pass++
+    }
+    if (pass > 50)
+        println("Test 1 passed")
+    else println("Test 1 failed")
+
+    //Test 2
+    val items1 = mutableListOf<Item>()
+
+    for (i in 0..250) {
+        val item = Item(random.nextInt(10), random.nextInt(10))
+        items1.add(item)
+    }
+    for (i in 0..25) {
+        dynamicFill = fillKnapsackDynamic(1500, items1)
+        println("Dynamic: " + dynamicFill.items.size)
+        greedyFill = fillKnapsackGreedy(1500, items1)
+        println("Greedy: " + greedyFill.items.size)
+        geneticFill = solve(1500, items1)
+        println("Genetic: " + geneticFill.items.size)
+        if (geneticFill.items.size >= dynamicFill.items.size || geneticFill.items.size >= greedyFill.items.size)
+            pass++
+    }
+    if (pass > 50)
+        println("Test 2 passed")
+    else println("Test 2 failed")
 }

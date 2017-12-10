@@ -6,13 +6,13 @@ import KnapsackOther.Item;
 import java.util.*;
 
 public class GeneticSolution {
-    Random random = new Random();
+    private Random random = new Random();
     private Item[] items;
     private int maxLoad;
     private int numberOfGenerations;
-    private int sizeOfFirstGeneration = 30;
+    private int sizeOfFirstGeneration = 50;
     private int numberOfSurvivors = 10;
-    private int numberOfMutants = 15;
+    private int numberOfMutants = 10;
 
     private GeneticSolution(List<Item> items, int numberOfGenerations, int maxLoad) {
         Item[] items1 = new Item[items.size()];
@@ -23,16 +23,16 @@ public class GeneticSolution {
     }
 
     public static Fill solve(int load, List<Item> items) {
-        GeneticSolution solve = new GeneticSolution(items,25, load);
+        GeneticSolution solve = new GeneticSolution(items,15, load);
         return solve.fillKnapsackGenetic(load, items);
     }
 
-    public Fill fillKnapsackGenetic(int load, List<Item> items) {
+    private Fill fillKnapsackGenetic(int load, List<Item> items) {
         maxLoad = load;
         return findSolution().convertToFill();
     }
 
-    public Individual findSolution() {
+    private Individual findSolution() {
         Generation generation = new Generation();
         for (int i = 0; i < numberOfGenerations; i++)
             generation.evolute();
@@ -126,16 +126,15 @@ public class GeneticSolution {
         private void evolute() {
             for (int i = 0; i < numberOfMutants; i++)
                 individuals.add(new Individual());
-            individuals = selection();
+            individuals = crossing();
             individuals.addAll(mutants());
             individuals = selection();
-            individuals = crossing();
             chooseTheOnes();
         }
 
         private void chooseTheOnes() {
             for (Individual individual : individuals)
-                if (individual.fitness > theChosenOne.fitness && individual.load < maxLoad)
+                if (individual.fitness > theChosenOne.fitness && individual.load <= maxLoad)
                     theChosenOne = individual;
         }
 
