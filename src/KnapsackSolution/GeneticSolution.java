@@ -10,8 +10,8 @@ public class GeneticSolution {
     private Item[] items;
     private int maxLoad;
     private int numberOfGenerations;
-    private int sizeOfFirstGeneration = 50;
-    private int numberOfSurvivors = 10;
+    private int sizeOfFirstGeneration = 30;
+    private int numberOfSurvivors = 15;
     private int numberOfMutants = 10;
 
     private GeneticSolution(List<Item> items, int numberOfGenerations, int maxLoad) {
@@ -23,7 +23,7 @@ public class GeneticSolution {
     }
 
     public static Fill solve(int load, List<Item> items) {
-        GeneticSolution solve = new GeneticSolution(items,15, load);
+        GeneticSolution solve = new GeneticSolution(items, 50, load);
         return solve.fillKnapsackGenetic(load, items);
     }
 
@@ -166,7 +166,6 @@ public class GeneticSolution {
         private List<Individual> mutants() {
             List<Individual> mutants = new ArrayList<>();
             for (Individual individual : individuals) {
-                mutants.add(individual.mutate());
                 mutants.add(individual.mutate());
             }
             return mutants;

@@ -51,8 +51,8 @@ fun main(args: Array<String>) {
     val random = Random()
     //Test 1
     val items = mutableListOf<Item>()
-    for (i in 0..10) {
-        val item = Item(random.nextInt(10), random.nextInt(10))
+    for (i in 0..5) {
+        val item = Item(random.nextInt(10 - 1) + 1, random.nextInt(10 - 1) + 1)
         items.add(item)
     }
     var dynamicFill: Fill
@@ -66,6 +66,7 @@ fun main(args: Array<String>) {
         if (geneticFill.items.size >= dynamicFill.items.size || geneticFill.items.size >= greedyFill.items.size)
             pass++
     }
+
     if (pass > 50)
         println("Test 1 passed")
     else println("Test 1 failed")
@@ -74,7 +75,7 @@ fun main(args: Array<String>) {
     val items1 = mutableListOf<Item>()
 
     for (i in 0..250) {
-        val item = Item(random.nextInt(10), random.nextInt(10))
+        val item = Item(random.nextInt(10 - 1) + 1, random.nextInt(10 - 1) + 1)
         items1.add(item)
     }
     for (i in 0..25) {
